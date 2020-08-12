@@ -1,10 +1,10 @@
 // 取現在年月
 const date = new Date();
 const year = date.getFullYear();
-const month = date.getMonth() + 1;
+const month = date.getMonth();
 // 暫存年月
 let yearVal = year;
-let monthVal = month;
+let monthVal = month + 1;
 let dateId = '';
 const weeks = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -37,7 +37,7 @@ for (let i = 0; i < 6; i++) {
 // 新增月份輪播
 (() => {
   addCarouselItemInfo();
-  addDays(year, month);
+  addDays(yearVal, monthVal);
   loadNote();
 })();
 
@@ -96,10 +96,10 @@ function addCarouselItemInfo() {
   p.addClass('m-0 p-2');
   p.text(`${month},${year}`);
   carouselInner.append(div);
-  $('.carousel-inner > .carousel-item').text(`${month},${year}`);
+  $('.carousel-inner > .carousel-item').text(`${monthVal},${yearVal}`);
 }
 function nextDateData() {
-  if (monthVal < 12) {
+  if (monthVal < 11) {
     monthVal++;
   } else {
     monthVal = 1;
@@ -116,13 +116,16 @@ function prevDateData() {
 }
 function addDays(year, month) {
   let tdsContent = $('tbody td a');
-  tdsContent.empty();
+  tdsContent
+    .empty()
+    .css("background-color", "#e6e6e655")
+    .off();
   tdsContent.attr('id', '');
-  let week = new Date(year, month, 1).getDay();
-  let monthDay = new Date(year, month + 1, 0).getDate();
+  let week = new Date(year, month - 1, 1).getDay();
+  let monthDay = new Date(year, month, 0).getDate();
   for (let i = 0; i < monthDay; i++) {
     tdsContent
-      .eq(week + 1 + i)
+      .eq(week + i)
       .attr('id', `${yearVal}-${monthVal}-${i + 1}`)
       .append($(`<p class="m-0">${i + 1}</p>`))
       .css("background-color", "#fefefe")
