@@ -1,0 +1,57 @@
+.container {
+  height: 100vh;
+}
+
+.table thead th {
+  border: 1px solid #383838;
+  background-color: #383838;
+  color: #fff;
+}
+
+.table tbody tr > * {
+  width: calc(100% / 7);
+  height: 50px;
+  font-size: 18px;
+  border: 1px solid #383838;
+}
+
+#carousel {
+  font-size: 26px;
+  font-weight: 900;
+  color: #f5f5f5;
+  background-color: red;
+  border-radius: 25px 25px 0px 0px / 20px 20px;
+  letter-spacing: 3px;
+}
+
+.table tbody tr td {
+  font-weight: 700;
+  padding: 0px;
+  height: 120px;
+  background-color: #e6e6e655;
+}
+
+.table tbody tr td a {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.modal-footer button:nth-child(1),
+.modal-footer button:nth-child(2) {
+  display: none;
+}
+
+span.badge {
+  cursor: pointer;
+  -webkit-box-shadow: 2px 2px 2px 2px #cfcdcd;
+          box-shadow: 2px 2px 2px 2px #cfcdcd;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  margin: 3px;
+}
+
+span.badge:hover {
+  -webkit-transform: translateY(1.5px) scale(0.98);
+          transform: translateY(1.5px) scale(0.98);
+}
+/*# sourceMappingURL=style.css.map */
