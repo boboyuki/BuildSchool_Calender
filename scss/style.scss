@@ -40,6 +40,10 @@ span.badge {
   box-shadow: 2px 2px 2px 2px #cfcdcd;
   transition: all 0.3s;
   margin: 3px;
+  width: 28%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   &:hover {
     transform: translateY(1.5px) scale(0.98);
   }
