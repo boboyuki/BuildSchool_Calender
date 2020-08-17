@@ -60,15 +60,13 @@ $('#carousel > .carousel-control-next').click(function () {
 });
 
 $('tbody td a').click(function (e) {
-  dateId = e.currentTarget.id;
+  dateId = this.id;
+  modifyTitle(true);
   // 禁止冒泡會造成modal打不開，所以讓沒日期的加stopPropagation
   this.textContent === '' ? e.stopPropagation() : null;
   // 清空modal
-  $('.modal .title').val('');
-  $('.modal .start').val('');
-  $('.modal .end').val('');
-  $('.modal #note').val('');
-  toggleBtn('block', 'none')
+  updateModal('');
+  toggleBtn('block', 'none');
 });
 
 modifyBtn.click(function () {
@@ -83,7 +81,34 @@ addBtn.click(function (e) {
   setLocalStorage(Date.now());
   loadNote();
 });
-
+function updateModal(value) {
+  if (value === '') {
+    $('.modal .title').val('');
+    $('.modal .start').val('');
+    $('.modal .end').val('');
+    $('.modal #note').val('');
+    $('.modal .color').val('');
+  } else {
+    $('.modal .title').val(value.title);
+    $('.modal .start').val(value.startTime);
+    $('.modal .end').val(value.endTime);
+    $('.modal #note').val(value.noteText);
+    $('.modal .color').val(value.color);
+  }
+}
+function modifyTitle(bool) {
+  if (bool) {
+    $('.modal-header')
+      .removeClass('bg-success')
+      .addClass(['bg-primary', 'text-white']);
+    $('.modal-title').text('新增記事');
+  } else {
+    $('.modal-header')
+      .removeClass('bg-primary')
+      .addClass(['bg-success', 'text-white']);
+    $('.modal-title').text('修改記事');
+  }
+}
 function toggleBtn(add, other) {
   addBtn.css('display', add);
   deleteBtn.css('display', other);
@@ -118,8 +143,9 @@ function addDays(year, month) {
   let tdsContent = $('tbody td a');
   tdsContent
     .empty()
-    .css("background-color", "#e6e6e655")
-    .off();
+    .css('background-color', '#e6e6e655')
+    .off('mouseenter')
+    .off('mouseleave');
   tdsContent.attr('id', '');
   let week = new Date(year, month - 1, 1).getDay();
   let monthDay = new Date(year, month, 0).getDate();
@@ -128,15 +154,13 @@ function addDays(year, month) {
       .eq(week + i)
       .attr('id', `${yearVal}-${monthVal}-${i + 1}`)
       .append($(`<p class="m-0">${i + 1}</p>`))
-      .css("background-color", "#fefefe")
+      .css('background-color', '#fefefe')
       .mouseenter(function () {
-        $(this).css("background-color", "#FFFFCC")
+        $(this).css('background-color', '#FFFFCC');
       })
-      .mouseleave(
-        function () {
-          $(this).css("background-color", "#fefefe")
-        }
-      );
+      .mouseleave(function () {
+        $(this).css('background-color', '#fefefe');
+      });
   }
 }
 function setLocalStorage(key) {
@@ -175,14 +199,11 @@ function loadNote() {
         badge.text(data.title);
         badge.click(function (e) {
           dateId = $(this).parent().attr('id');
-          $('.modal .title').val(data.title);
-          $('.modal .start').val(data.startTime);
-          $('.modal .end').val(data.endTime);
-          $('.modal #note').val(data.noteText);
-          $('.modal .color').val(data.color);
+          modifyTitle(false);
+          updateModal(data);
           modifyBtn.attr('data-stamp', localStorage.key(i));
           deleteBtn.attr('data-stamp', localStorage.key(i));
-          toggleBtn("none", "block")
+          toggleBtn('none', 'block');
           // 禁止冒泡會造成modal打不開，所以要多加modal.show顯示
           e.stopPropagation();
           $('#staticBackdrop').modal('show');
